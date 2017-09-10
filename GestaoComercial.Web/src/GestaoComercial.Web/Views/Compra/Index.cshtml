@@ -1,0 +1,97 @@
+@model IEnumerable<GestaoComercial.Web.Models.Compra>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/Application.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () { validarNumero("searchCodConta"); })
+</script>
+
+<h4>Compras</h4>
+
+<p>
+    <a asp-action="Create">Nova Compra</a>
+</p>
+
+<form asp-action="Index" method="get">
+    
+
+        <table class="table">
+           <tbody>
+               <tr>
+                   <td>
+                       Conta Nro.:
+                   </td>
+                   <td>
+                       <input type="text" id="searchCodConta" name="searchCodConta" value="@ViewData["searchCodConta"]" />
+                   </td>
+                   <td>
+                       Nome:
+                   </td>
+                   <td>
+                       <input type="text" name="searchNomeConta" value="@ViewData["searchNomeConta"]" />
+                   </td>
+                   <td>
+                       Status:
+                   </td>
+                   <td>
+                       <input type="checkbox" name="searchStatusCompra" value="ViewData[" searchStatusCompra"]" />
+                   </td>
+                   <td>
+                       <input type="submit" value="Consultar" class="btn btn-default" />  
+                   </td>
+                   <td>
+                       <a asp-action="Index">Voltar</a>
+                   </td>
+               </tr>
+           </tbody>
+        </table>
+    </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompraID)
+            </th>
+            <th>
+                Conta - Cliente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompraID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContaID) - @Html.DisplayFor(modelItem => item.Conta.Cliente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CompraID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CompraID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CompraID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

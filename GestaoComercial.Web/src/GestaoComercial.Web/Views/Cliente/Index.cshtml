@@ -1,0 +1,60 @@
+@model IEnumerable<GestaoComercial.Web.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/Application.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () { validarNumero("searchCodConta"); })
+</script>
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Novo Cliente</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Nome: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Consultar" class="btn btn-default" /> |
+            <a asp-action="Index">Retornar</a>
+        </p>
+    </div>
+</form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataCadastro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataCadastro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ClienteID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ClienteID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ClienteID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

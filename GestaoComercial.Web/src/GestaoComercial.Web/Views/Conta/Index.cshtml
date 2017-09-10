@@ -1,0 +1,100 @@
+@model IEnumerable<GestaoComercial.Web.Models.Conta>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/Application.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () { validarNumero("searchCodConta"); })
+</script>
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Nova Conta</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Conta Nro.: <input type="text" id="searchCodConta" name="searchCodConta" value="@ViewData["searchCodConta"]" />
+            Nome: <input type="text" name="searchNomeConta" value="@ViewData["searchNomeConta"]" />
+            <input type="submit" value="Consultar" class="btn btn-default" /> |
+            <a asp-action="Index">Voltar</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContaID)
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContaID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ContaID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ContaID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ContaID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+            Html.RenderPartial("Partial/ClientesAtivos");
+}
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script>
+
+    function UpdateContadorContas() {
+        $.ajax({
+            type: 'get',
+            dataType: 'html',
+            cache: false,
+            url: '/Conta/ClientesAtivos',
+            success: function (data) {
+                var currentdate = new Date();
+                var hora = currentdate.getHours() + ':' + currentdate.getMinutes() + ':' + currentdate.getSeconds();
+                $("#divContador").html('Quantidade de contas ativas: ' + $.parseJSON(data).quantidade + ' - Ultima atualizacao: ' + hora);
+            },
+            error: function (xhr, status, error) {
+                var err = xhr.responseText;
+                alert(err);
+            }
+        });
+    }
+
+    UpdateContadorContas();
+
+    setInterval(function () {
+        UpdateContadorContas()
+    }, 60000);
+
+</script>

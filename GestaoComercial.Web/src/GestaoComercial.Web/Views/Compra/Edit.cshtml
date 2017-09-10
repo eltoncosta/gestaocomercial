@@ -1,0 +1,60 @@
+@model GestaoComercial.Web.Models.Compra
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<script src="/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        
+
+    });
+</script>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Compra</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="CompraID" />
+        <div class="form-group">
+            <label class="control-label col-md-2">Conta - Cliente</label>
+            <div class="col-md-10">
+                <select asp-for="ContaID" class="form-control" asp-items="ViewBag.ContaID"></select>
+                <span asp-validation-for="ContaID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Valor" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Valor" class="form-control" />
+                <span asp-validation-for="Valor" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Status" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
